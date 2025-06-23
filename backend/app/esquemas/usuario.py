@@ -28,12 +28,12 @@ class UsuarioResponse(UsuarioBase):
     class Config:
         from_attributes = True
 
-# Schema para token de acesso
+# Schema para token JWT
 class Token(BaseModel):
     access_token: str
     token_type: str
 
-# Schema de resposta padrão da API
+# Schema para resposta padrão da API
 class RespostaPadrao(BaseModel):
     sucesso: bool
     mensagem: str

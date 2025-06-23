@@ -9,10 +9,10 @@ class Settings(BaseSettings):
     debug: bool = True
     secret_key: str = "sua_chave_super_secreta_aqui_mude_em_producao"
     
-    # Banco de Dados - usar local se estiver em container
+    # Banco de Dados - usar banco remoto configurado
     database_url: str = os.getenv(
         "DATABASE_URL", 
-        "postgresql://vendperto_local:senha123@postgres:5432/vendperto_local"
+        "postgresql://vendperto:nxq8n8m0qh7lnrqz@5.161.218.248:5432/vendperto"
     )
     
     # JWT
