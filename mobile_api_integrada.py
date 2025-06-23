@@ -283,16 +283,18 @@ async def obter_catalogo_mobile(
     # Otimizar para mobile (campos essenciais)
     produtos_mobile = []
     for produto in produtos:
-        produtos_mobile.append({
-            "id": produto["id"],
-            "nome": produto["nome"],
-            "preco": produto["preco"],
-            "categoria": produto.get("categoria", "Geral"),
-            "disponivel": produto.get("estoque_atual", 0) > 0,
-            "estoque_atual": produto.get("estoque_atual", 0),
-            "descricao": produto.get("descricao", ""),
-            "unidade": produto.get("unidade", "un")
-        })
+        # Só exibir produtos com estoque > 0
+        if produto.get("estoque_atual", 0) > 0:
+            produtos_mobile.append({
+                "id": produto["id"],
+                "nome": produto["nome"],
+                "preco": produto["preco"],
+                "categoria": produto.get("categoria", "Geral"),
+                "disponivel": True,
+                "estoque_atual": produto.get("estoque_atual", 0),
+                "descricao": produto.get("descricao", ""),
+                "unidade": produto.get("unidade", "un")
+            })
     
     return {
         "produtos": produtos_mobile,
@@ -462,9 +464,6 @@ async def criar_pedido_mobile(pedido: PedidoMobile, morador=Depends(verificar_to
 @app.get("/api/v1/mobile/pedidos/meus")
 async def listar_meus_pedidos(morador=Depends(verificar_token_mobile)):
     """📋 Lista pedidos do morador (vendas do ERP)"""
-    
-    # Aqui seria ideal ter uma API no ERP para buscar vendas por cliente
-    # Por enquanto, retornamos uma mensagem explicativa
     
     return {
         "mensagem": "Pedidos são processados como vendas no ERP",

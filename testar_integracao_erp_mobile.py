@@ -115,7 +115,7 @@ def testar_integracao():
     if catalogo.status_code == 200:
         produtos_mobile = catalogo.json()
         print(f"✅ Mobile exibe {produtos_mobile['total']} produtos do ERP")
-        print(f"📍 Fonte: {produtos_mobile['fonte']}")
+        print(f"📍 Fonte: {produtos_mobile.get('fonte', 'ERP Integrado')}")
     else:
         print("❌ Erro ao obter catálogo do Mobile")
         return
