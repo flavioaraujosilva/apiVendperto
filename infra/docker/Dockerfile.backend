@@ -7,9 +7,10 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     gcc \
     postgresql-client \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Quebrar cache Docker - versão 2024-06-23-19:50-imports-absolutos
+# Quebrar cache Docker - versão 2024-06-23-20:00-curl-healthcheck
 # Copiar requirements e instalar dependências Python
 COPY backend/requirements.txt .
 # Força reinstalação limpa das dependências
