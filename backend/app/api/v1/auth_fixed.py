@@ -10,7 +10,7 @@ from datetime import datetime
 from core.database import obter_db
 from core.seguranca import criarTokenAcesso, verificarToken
 from esquemas.usuario import UsuarioCreate, UsuarioResponse, Token, RespostaPadrao, UsuarioLogin
-from servicos.usuario import usuario_service
+from servicos.usuario_fixed import usuario_service
 
 router = APIRouter(prefix="/auth", tags=["Autenticação"])
 
