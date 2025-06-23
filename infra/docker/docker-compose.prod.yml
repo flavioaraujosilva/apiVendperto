@@ -1,0 +1,104 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v3.0
+    container_name: vendperto-traefik-prod
+    command:
+      - "--api.dashboard=false"  # Desabilitar dashboard em produção
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.file.directory=/etc/traefik/dynamic"
+      - "--providers.file.watch=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.cloudflare.acme.tlschallenge=true"
+      - "--certificatesresolvers.cloudflare.acme.email=admin@ambientedeteste.dev"
+      - "--certificatesresolvers.cloudflare.acme.storage=/letsencrypt/acme.json"
+      # Logs
+      - "--log.level=INFO"
+      - "--accesslog=true"
+      - "--accesslog.filepath=/var/log/traefik/access.log"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./traefik/letsencrypt:/letsencrypt"
+      - "./traefik/config:/etc/traefik/dynamic:ro"
+      - "traefik_logs:/var/log/traefik"
+    restart: unless-stopped
+    networks:
+      - vendperto-network
+
+  backend:
+    build:
+      context: ../../
+      dockerfile: infra/docker/Dockerfile.backend
+    environment:
+      - APP_ENV=production
+      - DEBUG=False
+      - DATABASE_URL=postgresql://vendperto:nxq8n8m0qh7lnrqz@5.161.218.248:5432/vendperto
+    volumes:
+      - logs_data:/app/logs
+    restart: unless-stopped
+    depends_on:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      
+      # API Principal
+      - "traefik.http.routers.api-prod.rule=Host(`api.ambientedeteste.dev`)"
+      - "traefik.http.routers.api-prod.entrypoints=websecure"
+      - "traefik.http.routers.api-prod.tls.certresolver=cloudflare"
+      - "traefik.http.services.api-prod.loadbalancer.server.port=8000"
+      
+      # Middlewares para API
+      - "traefik.http.routers.api-prod.middlewares=api-middlewares@docker"
+      - "traefik.http.middlewares.api-middlewares.chain.middlewares=secure-headers@file,cors-headers@file,gzip-compress@file,rate-limit@file"
+      
+      # Redirect HTTP to HTTPS
+      - "traefik.http.routers.api-prod-insecure.rule=Host(`api.ambientedeteste.dev`)"
+      - "traefik.http.routers.api-prod-insecure.entrypoints=web"
+      - "traefik.http.routers.api-prod-insecure.middlewares=redirect-to-https@docker"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+    networks:
+      - vendperto-network
+
+  # Frontend (quando for criado)
+  frontend:
+    image: nginx:alpine
+    restart: unless-stopped
+    volumes:
+      - ../../frontend/build:/usr/share/nginx/html
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - traefik
+      - backend
+    labels:
+      - "traefik.enable=true"
+      
+      # Frontend Principal
+      - "traefik.http.routers.frontend-prod.rule=Host(`ambientedeteste.dev`) || Host(`app.ambientedeteste.dev`)"
+      - "traefik.http.routers.frontend-prod.entrypoints=websecure"
+      - "traefik.http.routers.frontend-prod.tls.certresolver=cloudflare"
+      - "traefik.http.services.frontend-prod.loadbalancer.server.port=80"
+      
+      # Middlewares para Frontend
+      - "traefik.http.routers.frontend-prod.middlewares=frontend-middlewares@docker"
+      - "traefik.http.middlewares.frontend-middlewares.chain.middlewares=secure-headers@file,gzip-compress@file"
+      
+      # Redirect HTTP to HTTPS
+      - "traefik.http.routers.frontend-prod-insecure.rule=Host(`ambientedeteste.dev`) || Host(`app.ambientedeteste.dev`)"
+      - "traefik.http.routers.frontend-prod-insecure.entrypoints=web"
+      - "traefik.http.routers.frontend-prod-insecure.middlewares=redirect-to-https@docker"
+    networks:
+      - vendperto-network
+
+volumes:
+  logs_data:
+  traefik_logs:
+
+networks:
+  vendperto-network:
+    driver: bridge 

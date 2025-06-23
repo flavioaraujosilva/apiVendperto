@@ -1,0 +1,86 @@
+# Configuração dinâmica do Traefik
+http:
+  middlewares:
+    # Middleware para CORS
+    cors-headers:
+      headers:
+        accessControlAllowMethods:
+          - GET
+          - OPTIONS
+          - PUT
+          - POST
+          - DELETE
+          - PATCH
+        accessControlAllowOriginList:
+          - "https://ambientedeteste.dev"
+          - "https://app.ambientedeteste.dev"
+          - "http://localhost:3000"
+        accessControlMaxAge: 100
+        addVaryHeader: true
+        accessControlAllowCredentials: true
+        accessControlAllowHeaders:
+          - "Authorization"
+          - "Content-Type"
+          - "X-Requested-With"
+          - "Accept"
+          - "Origin"
+          - "Access-Control-Request-Method"
+          - "Access-Control-Request-Headers"
+
+    # Middleware para compressão
+    gzip-compress:
+      compress: {}
+
+    # Middleware para rate limiting
+    rate-limit:
+      rateLimit:
+        burst: 100
+        period: 1m
+
+    # Middleware para segurança
+    secure-headers:
+      headers:
+        frameDeny: true
+        sslRedirect: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
+
+  # Configuração de routers globais
+  routers:
+    # Router para frontend (futuro)
+    frontend:
+      rule: "Host(`ambientedeteste.dev`) || Host(`app.ambientedeteste.dev`)"
+      service: frontend-service
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: cloudflare
+      middlewares:
+        - secure-headers
+        - cors-headers
+        - gzip-compress
+
+  # Serviços
+  services:
+    frontend-service:
+      loadBalancer:
+        servers:
+          - url: "http://frontend:3000"
+
+# Configurações TLS
+tls:
+  options:
+    default:
+      sslStrategies:
+        - "tls.SniStrict"
+      minVersion: "VersionTLS12"
+      cipherSuites:
+        - "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+        - "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305"
+        - "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256" 

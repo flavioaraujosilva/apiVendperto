@@ -1,12 +1,38 @@
 version: '3.8'
 
 services:
+  traefik:
+    image: traefik:v3.0
+    container_name: vendperto-traefik
+    command:
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:8080"
+      - "--entrypoints.websecure.address=:8443"
+      - "--entrypoints.api.address=:9090"
+    ports:
+      - "8080:8080"    # HTTP (desenvolvimento)
+      - "8443:8443"    # HTTPS (desenvolvimento)  
+      - "9090:9090"    # Dashboard Traefik
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./traefik/letsencrypt:/letsencrypt"
+      - "./traefik/config:/etc/traefik/dynamic"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.entrypoints=api"
+    restart: unless-stopped
+    networks:
+      - vendperto-network
+
   backend:
     build:
       context: ../../
       dockerfile: infra/docker/Dockerfile.backend
-    ports:
-      - "8000:8000"
     environment:
       - APP_ENV=development
       - DEBUG=True
@@ -16,6 +42,19 @@ services:
     restart: unless-stopped
     depends_on:
       - postgres
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api-dev.rule=Host(`api.localhost`)"
+      - "traefik.http.routers.api-dev.entrypoints=web"
+      - "traefik.http.services.api-dev.loadbalancer.server.port=8000"
+      
+      # Também expor diretamente para facilitar
+      - "traefik.http.routers.api-direct.rule=Host(`localhost`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.api-direct.entrypoints=web"
+      - "traefik.http.services.api-direct.loadbalancer.server.port=8000"
+    networks:
+      - vendperto-network
     
   postgres:
     image: postgres:15
@@ -28,7 +67,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+    networks:
+      - vendperto-network
 
 volumes:
   postgres_data:
   logs_data:
+
+networks:
+  vendperto-network:
+    driver: bridge

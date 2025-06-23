@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  backend:
+    image: python:3.11-slim
+    working_dir: /app
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=development
+      - DEBUG=True
+      - PYTHONPATH=/app:/app/app
+    volumes:
+      - ../../backend:/app
+    command: >
+      bash -c "
+        pip install --no-cache-dir -r requirements.txt &&
+        cd app &&
+        python main_docker.py
+      "
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: vendperto_local
+      POSTGRES_USER: vendperto_local
+      POSTGRES_PASSWORD: senha123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data: 

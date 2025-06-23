@@ -1,12 +1,17 @@
+import sys
+import os
+sys.path.append('/app/app')
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 import logging
 from datetime import datetime
 
-from .core.config import configuracoes
-from .core.database import engine, Base
-from .api.v1 import auth
+# Imports absolutos
+from core.config import configuracoes
+from core.database import engine, Base
+from api.v1 import auth_fixed as auth
 
 # Configurar logging
 logging.basicConfig(
@@ -88,8 +93,8 @@ async def shutdown_event():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
-        "app.main:app",
+        app,
         host="0.0.0.0",
         port=8001,
-        reload=configuracoes.debug
-    )
+        reload=True
+    ) 

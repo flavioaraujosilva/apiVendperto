@@ -104,6 +104,56 @@ apiVendperto/
 └── memory-bank/             # Documentação do projeto
 ```
 
+## 🌐 Deploy com Traefik (Produção)
+
+### Configuração para ambientedeteste.dev
+
+O projeto já vem configurado com **Traefik** para deploy em produção:
+
+#### URLs disponíveis:
+- 🌐 **Frontend**: https://ambientedeteste.dev
+- 🔌 **API**: https://api.ambientedeteste.dev  
+- 📖 **Documentação**: https://api.ambientedeteste.dev/docs
+- 🔧 **Dashboard Traefik**: https://traefik.ambientedeteste.dev (só desenvolvimento)
+
+#### Deploy em produção:
+```bash
+# Linux/Mac
+./infra/scripts/deploy-prod.sh
+
+# Windows
+cd infra/docker
+docker-compose -f docker-compose.prod.yml up --build -d
+```
+
+#### Ver logs de produção:
+```bash
+# Linux/Mac
+./infra/scripts/logs-prod.sh
+
+# Windows
+cd infra/docker
+docker-compose -f docker-compose.prod.yml logs -f
+```
+
+### ⚠️ Antes do deploy:
+1. **Configurar DNS**: Apontar os domínios para o servidor
+   - `ambientedeteste.dev` → IP do servidor
+   - `api.ambientedeteste.dev` → IP do servidor
+   - `traefik.ambientedeteste.dev` → IP do servidor
+
+2. **Configurar Cloudflare**: Para certificados SSL automáticos
+
+3. **Verificar banco**: Conexão com PostgreSQL remoto (5.161.218.248:5432)
+
+### 🛡️ Segurança Traefik:
+- ✅ SSL/TLS automático (Let's Encrypt)
+- ✅ Redirect HTTP → HTTPS
+- ✅ Headers de segurança
+- ✅ Rate limiting
+- ✅ CORS configurado
+- ✅ Compressão gzip
+
 ## 🎯 Próximos Passos
 
 Após confirmar que tudo está funcionando:
@@ -112,7 +162,7 @@ Após confirmar que tudo está funcionando:
 2. ✅ **Adicionar módulos** (estoque, vendas, financeiro)  
 3. ✅ **Implementar testes** unitários e integração
 4. ✅ **Configurar CI/CD**
-5. ✅ **Deploy** em produção
+5. ✅ **Deploy** em produção com Traefik
 
 ---
 
