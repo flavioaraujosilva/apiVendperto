@@ -1,98 +1,166 @@
-# Contexto do Produto - VendPerto ERP
+# Contexto do Produto - VendPerto App Mobile
 
 ## Razão de Existência
 
-O VendPerto ERP surge para resolver problemas críticos enfrentados por pequenas e médias empresas na gestão de seus negócios, oferecendo uma solução moderna, acessível e completa.
+O **VendPerto App Mobile** surge para revolucionar o conceito de mini mercados em condomínios, oferecendo uma solução completa e moderna que conecta moradores a produtos de conveniência através de um aplicativo intuitivo.
 
-## Problemas Identificados
+## Problemas Identificados no Mercado de Condomínios
 
-### 1. Fragmentação de Sistemas
-- **Problema**: Empresas usam múltiplas ferramentas desconectadas
-- **Impacto**: Dados inconsistentes, retrabalho, perda de eficiência
-- **Solução VendPerto**: Sistema unificado com módulos integrados
+### 1. Inconveniência de Compras
+- **Problema**: Moradores precisam sair do condomínio para compras básicas
+- **Impacto**: Perda de tempo, insegurança, especialmente à noite
+- **Solução VendPerto**: Mini mercado interno com app para pedidos
 
-### 2. Complexidade Técnica
-- **Problema**: ERPs tradicionais são complexos e caros
-- **Impacto**: Barreira de entrada alta, custos elevados
-- **Solução VendPerto**: Interface intuitiva, implementação simplificada
+### 2. Gestão Manual de Estoque
+- **Problema**: Controle de produtos feito manualmente ou sistemas básicos
+- **Impacto**: Produtos em falta, desperdício, falta de controle
+- **Solução VendPerto**: Sistema automatizado com alertas em tempo real
 
-### 3. Falta de Visibilidade
-- **Problema**: Dificuldade para obter visão consolidada do negócio
-- **Impacto**: Decisões baseadas em dados incompletos
-- **Solução VendPerto**: Dashboards inteligentes e relatórios automáticos
+### 3. Experiência de Compra Limitada
+- **Problema**: Horários restritos, filas, falta de praticidade
+- **Impacto**: Baixa satisfação dos moradores
+- **Solução VendPerto**: Compras 24/7 via app com entrega rápida
 
-### 4. Escalabilidade Limitada
-- **Problema**: Sistemas atuais não crescem com o negócio
-- **Impacto**: Necessidade de troca de sistema durante crescimento
-- **Solução VendPerto**: Arquitetura escalável desde o início
+### 4. Falta de Dados de Negócio
+- **Problema**: Não há análise de vendas, preferências ou tendências
+- **Impacto**: Decisões baseadas em intuição, oportunidades perdidas
+- **Solução VendPerto**: Analytics completo e relatórios inteligentes
 
-## Funcionalidades Esperadas
+## Personas do Sistema
 
-### Para Gestores:
-- **Dashboard Executivo**: Visão geral do negócio em tempo real
-- **Relatórios Personalizados**: Métricas relevantes para tomada de decisão
-- **Controle de Permissões**: Gestão segura de acessos por perfil
+### 👥 **MORADORES (Clientes Mobile)**
+**Necessidades:**
+- Comprar produtos básicos sem sair do condomínio
+- Interface simples e rápida no celular
+- Pagamento digital seguro
+- Entrega rápida no apartamento
+- Histórico de compras
 
-### Para Operadores:
-- **Interface Intuitiva**: Facilidade de uso no dia a dia
-- **Processos Otimizados**: Fluxos de trabalho eficientes
-- **Mobilidade**: Acesso via dispositivos móveis
+**Jornada:**
+1. Abre o app → Navega produtos → Adiciona ao carrinho
+2. Confirma pedido → Escolhe forma de pagamento → Finaliza
+3. Recebe notificação → Aguarda entrega → Avalia experiência
 
-### Para TI:
-- **Facilidade de Deploy**: Implementação rápida e segura
-- **Monitoramento**: Observabilidade completa do sistema
-- **Manutenção Simplificada**: Atualizações automáticas
+### 🏪 **ADMINISTRADORES DO MINI MERCADO**
+**Necessidades:**
+- Gerenciar estoque em tempo real
+- Processar pedidos rapidamente
+- Controlar entregas
+- Analisar vendas e performance
+- Configurar produtos e preços
 
-## Experiência do Usuário Objetivada
+**Jornada:**
+1. Dashboard → Visualiza pedidos → Processa itens
+2. Gerencia estoque → Atualiza produtos → Analisa relatórios
 
-### Onboarding Rápido:
-1. Cadastro simples e intuitivo
-2. Configuração guiada do sistema
-3. Importação de dados existentes
-4. Treinamento integrado
+### 🏢 **ADMINISTRAÇÃO DO CONDOMÍNIO**
+**Necessidades:**
+- Monitorar receita do mini mercado
+- Relatórios financeiros
+- Controle de acesso e segurança
+- Integração com outros serviços do condomínio
 
-### Uso Diário:
-1. Login único e seguro
-2. Dashboard personalizado por perfil
-3. Navegação intuitiva entre módulos
-4. Ações rápidas e eficientes
+## Funcionalidades Específicas do App Mobile
 
-### Crescimento:
-1. Adição de usuários sem complexidade
-2. Ativação de novos módulos conforme necessidade
-3. Escalabilidade transparente
-4. Suporte contínuo
+### 📱 **App do Morador (Cliente)**
+- **Catálogo Visual**: Navegação por categorias com fotos
+- **Busca Inteligente**: Localização rápida de produtos
+- **Carrinho Persistente**: Salva itens entre sessões
+- **Múltiplas Formas de Pagamento**: Cartão, PIX, carteira digital
+- **Rastreamento de Pedido**: Status em tempo real
+- **Programa de Fidelidade**: Pontos e descontos
+- **Avaliações**: Rating de produtos e serviço
+
+### 🖥️ **Painel Administrativo (Web)**
+- **Dashboard em Tempo Real**: Vendas, estoque, pedidos
+- **Gestão de Produtos**: CRUD completo com fotos
+- **Processamento de Pedidos**: Workflow otimizado
+- **Controle de Estoque**: Alertas automáticos
+- **Relatórios Avançados**: Analytics de vendas e clientes
+- **Configurações**: Horários, taxas, promoções
+
+### 🚚 **Sistema de Entrega**
+- **Agendamento**: Slots de horário para entrega
+- **Rastreamento**: GPS em tempo real
+- **Notificações**: SMS/Push para cliente e entregador
+- **Confirmação**: Assinatura digital ou foto
 
 ## Diferenciais Competitivos
 
-### Técnicos:
-- **Performance Superior**: Resposta rápida mesmo com grande volume de dados
-- **Arquitetura Moderna**: Microsserviços e containerização
-- **API First**: Integração facilitada com outros sistemas
+### 🎯 **Para Moradores:**
+- **Conveniência 24/7**: Compras a qualquer hora
+- **Segurança**: Sem necessidade de sair do condomínio
+- **Rapidez**: Entrega em poucos minutos
+- **Personalização**: Sugestões baseadas no histórico
 
-### Funcionais:
-- **Simplicidade**: Interface limpa e processos otimizados
-- **Flexibilidade**: Customização sem programação
-- **Integração**: Conectividade com ferramentas existentes
+### 🏪 **Para Gestores:**
+- **ROI Rápido**: Retorno sobre investimento em meses
+- **Operação Simples**: Interface intuitiva
+- **Escalabilidade**: Cresce com o negócio
+- **Suporte Completo**: Treinamento e assistência
 
-### Estratégicos:
-- **Custo Baixo**: Modelo de precificação acessível
-- **Implementação Rápida**: Go-live em semanas, não meses
-- **Suporte Local**: Atendimento em português brasileiro
+### 🏢 **Para Condomínios:**
+- **Receita Adicional**: Nova fonte de renda
+- **Valorização**: Diferencial competitivo
+- **Satisfação**: Moradores mais felizes
+- **Modernização**: Imagem tecnológica
 
 ## Métricas de Sucesso
 
-### Adoção:
-- Taxa de conversão de trial para assinatura
-- Tempo médio de onboarding
-- Frequência de uso diário
+### 📊 **Operacionais:**
+- Tempo médio de entrega: < 15 minutos
+- Taxa de disponibilidade do app: > 99%
+- Pedidos por morador/mês: Meta de crescimento
+- Ticket médio: Acompanhamento mensal
 
-### Satisfação:
-- NPS (Net Promoter Score)
-- Tempo de resolução de suporte
-- Taxa de churn
+### 💰 **Financeiras:**
+- Receita mensal do mini mercado
+- Margem de lucro por categoria
+- Custo de aquisição de cliente (CAC)
+- Lifetime Value (LTV) dos moradores
 
-### Performance:
-- Tempo de resposta das APIs
-- Uptime do sistema
-- Capacidade de crescimento 
+### 😊 **Experiência:**
+- NPS (Net Promoter Score): > 70
+- Taxa de retenção mensal: > 80%
+- Avaliação média no app: > 4.5 estrelas
+- Tempo de resolução de problemas: < 2h
+
+## Modelo de Negócio
+
+### 💵 **Receitas:**
+- Margem sobre produtos vendidos
+- Taxa de conveniência por pedido
+- Assinatura premium (entrega grátis)
+- Publicidade de marcas parceiras
+
+### 💸 **Custos:**
+- Licenciamento do sistema
+- Manutenção do estoque
+- Logística de entrega
+- Suporte técnico
+
+## Roadmap de Implementação
+
+### 🚀 **Fase 1 - MVP (Atual)**
+- ✅ APIs básicas funcionando
+- ✅ Catálogo de produtos
+- ✅ Sistema de pedidos
+- ✅ Gestão de estoque
+
+### 📱 **Fase 2 - App Mobile**
+- Interface nativa Android/iOS
+- Carrinho de compras
+- Sistema de pagamentos
+- Notificações push
+
+### 🔧 **Fase 3 - Automação**
+- Integração com sistemas de pagamento
+- Rastreamento GPS
+- IA para recomendações
+- Programa de fidelidade
+
+### 🌟 **Fase 4 - Expansão**
+- Multi-condomínios
+- Marketplace de serviços
+- Integração com delivery externo
+- Analytics avançado 
