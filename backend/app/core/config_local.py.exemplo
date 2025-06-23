@@ -1,0 +1,20 @@
+# Copie este arquivo para config_local.py e ajuste as configurações
+# Este arquivo não é versionado no git
+
+# Exemplo de configurações locais
+DATABASE_URL = "postgresql://usuario:senha@localhost:5432/vendperto_local"
+SECRET_KEY = "sua_chave_secreta_super_segura_aqui"
+ENVIRONMENT = "development"
+DEBUG = True
+
+# Configurações de email (opcional)
+# SMTP_SERVER = "smtp.gmail.com"
+# SMTP_PORT = 587
+# SMTP_USERNAME = "seu_email@gmail.com"
+# SMTP_PASSWORD = "sua_senha_app"
+
+# Configurações de cache (opcional)
+# REDIS_URL = "redis://localhost:6379"
+
+# Configurações de monitoramento (opcional)
+# SENTRY_DSN = "https://sua_dsn_do_sentry" 

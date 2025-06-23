@@ -1,0 +1,1 @@
+# Core - Configurações centrais 
